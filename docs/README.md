@@ -38,7 +38,51 @@ Plataforma multi-tenant para vitrines online regionais, onde cada empresa possui
 - CRUD de produtos funcional e rotas RESTful alinhadas ao painel.
 - Dashboard moderno com navegação e layout responsivo.
 
+## Setup do Banco de Dados
+
+1. Instale as dependências:
+   ```bash
+   npm install
+   ```
+
+2. Configure o arquivo `.env` na raiz do projeto, baseado no `.env.example`.
+
+3. Rode as migrations do banco:
+   ```bash
+   npx drizzle-kit push:pg
+   ```
+   *(ou configure um script no package.json para facilitar: `"drizzle:migrate": "npx drizzle-kit push:pg"`)*
+   
+4. (Opcional) Rode as seeds:
+   ```bash
+   npx tsx drizzle/seed-pg.ts
+   ```
+   *(ou configure um script: `"drizzle:seed": "npx tsx drizzle/seed-pg.ts"`)*
+
+## Onboarding em Nova Máquina
+
+1. Clone o repositório.
+2. Copie `.env.example` para `.env` e preencha os valores.
+3. Instale as dependências: `npm install`
+4. Rode as migrations e seeds conforme acima.
+5. Inicie o projeto: `npm run dev`
+
 ---
 
 > **Atenção agentes:**
 > Consulte este arquivo antes de implementar novas features. Mantenha a documentação atualizada para garantir continuidade e clareza no projeto. 
+
+# .env.example
+
+# Banco de dados
+DATABASE_URL=postgres://usuario:senha@localhost:5432/nome_do_banco
+
+# (Opcional) Autenticação NextAuth
+# NEXTAUTH_SECRET=sua_chave_secreta
+# NEXTAUTH_URL=http://localhost:3000
+
+# (Opcional) Cloudinary/S3 para imagens
+# CLOUDINARY_URL=cloudinary://api_key:api_secret@cloud_name
+# S3_BUCKET=nome-do-bucket
+# S3_ACCESS_KEY=chave
+# S3_SECRET_KEY=segredo 
