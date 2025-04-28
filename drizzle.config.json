@@ -1,0 +1,8 @@
+{
+  "schema": "./drizzle/schema.ts",
+  "out": "./drizzle/migrations",
+  "dialect": "postgresql",
+  "dbCredentials": {
+    "url": "postgresql://postgres:36622488@localhost:5432/vitrine_marketplace"
+  }
+} 

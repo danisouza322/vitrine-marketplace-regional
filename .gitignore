@@ -1,0 +1,24 @@
+# Node
+node_modules/
+.env
+.env.*
+.next/
+out/
+dist/
+.cache/
+*.log
+*.tmp
+*.local
+
+# VSCode
+.vscode/
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Drizzle
+*.sqlite
+
+# Manter .cursor versionado
+!.cursor/ 

@@ -1,0 +1,57 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+egras e Guidelines para o Projeto (Rules do Cursor)
+1. Organização de Código e Pastas
+Siga rigorosamente a estrutura de pastas definida no esqueleto.
+Cada domínio (admin, tenant, público) deve ter seus próprios componentes e páginas.
+APIs devem ser organizadas por recurso (ex: /api/products, /api/tenants).
+2. Multi-Tenancy
+Toda query ao banco deve ser filtrada por tenant_id (exceto rotas/admin globais).
+Nunca exponha dados de um tenant para outro.
+Middleware de autenticação deve garantir o isolamento de contexto.
+3. Autenticação e Autorização
+Use NextAuth.js para autenticação de empresas/admin.
+Implemente RBAC: admin tem acesso global, tenant só ao próprio escopo.
+Rotas privadas devem validar o papel do usuário antes de executar ações.
+4. Limites de Plano
+Toda ação de criação de produto deve validar o limite do plano do tenant.
+Excedendo o limite, retornar erro amigável e sugerir upgrade.
+5. Segurança
+Sempre sanitize e valide inputs (use Zod/Yup).
+Nunca confie em dados vindos do client.
+Implemente rate limiting em endpoints sensíveis.
+Não exponha informações sensíveis em erros retornados ao client.
+6. Uploads e Imagens
+Imagens devem ser armazenadas em serviço externo (Cloudinary/S3) ou pasta pública, nunca no banco.
+Valide tipo e tamanho dos arquivos no upload.
+7. Analytics e Logs
+Toda visualização/click relevante deve ser registrada na tabela analytics.
+Logs administrativos (ações sensíveis) devem ser persistidos para auditoria.
+8. Boas Práticas de Código
+Use TypeScript estrito.
+Componentes devem ser funcionais e reutilizáveis.
+Prefira hooks customizados para lógica compartilhada.
+Separe lógica de UI e de dados (ex: hooks para fetch, componentes só para renderização).
+9. Fluxo de Pull Requests/Commits
+Todo PR deve ser revisado por pelo menos 1 pessoa.
+Commits devem ser claros e descritivos.
+Não faça push direto na branch principal.
+10. Testes e Qualidade
+Implemente testes unitários para lógica crítica (ex: validação de plano, RBAC).
+Teste manual de flows principais antes de merge.
+11. Responsividade e Acessibilidade
+Todos os componentes devem ser responsivos (mobile-first).
+Siga boas práticas de acessibilidade (labels, contraste, navegação por teclado).
+12. Documentação
+Documente endpoints, modelos e regras de negócio no README ou Wiki.
+Sempre atualize a documentação ao alterar regras ou fluxos.
+Exemplo de Middleware Multi-Tenant (Pseudo-código)
+Apply to contributing...
+// Exemplo de proteção de rota
+if (!user || user.tenant_id !== resource.tenant_id) {
+  return res.status(403).json({ error: "Acesso negado" });
+}
+
