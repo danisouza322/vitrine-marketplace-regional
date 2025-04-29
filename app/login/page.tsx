@@ -24,7 +24,7 @@ export default function LoginPage() {
     } else {
       // Redireciona para painel do tenant ou admin
       // (Ajuste conforme lógica de roles se necessário)
-      router.push("/tenant");
+      router.push("/painel");
     }
   }
 

@@ -1,21 +1,32 @@
-import { db } from '../lib/db';
-import { plans } from './schema';
-import { v4 as uuidv4 } from 'uuid';
+const { drizzle } = require('drizzle-orm/node-postgres');
+const { Pool } = require('pg');
+const schema = require('./schema');
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+});
+
+const db = drizzle(pool, { schema });
 
 async function seed() {
-  const planId = uuidv4();
-  await db.insert(plans).values({
-    id: planId,
-    name: 'Plano Básico',
-    product_limit: 20,
-    price: '0.00',
-    features: 'Limite de 20 produtos',
-  });
-  console.log('Plano Básico inserido com sucesso!');
-  process.exit(0);
+  try {
+    console.log('🌱 Inserindo dados iniciais...');
+    
+    // Inserir tenant com UUID específico
+    await db.insert(schema.tenants).values({
+      id: 'e7e84d74-ec30-4ae1-881d-4e610e2e5d85',
+      name: 'Empresa Teste',
+      slug: 'empresa-teste',
+      status: 'active',
+      created_at: new Date(),
+    }).onConflictDoNothing();
+    
+    console.log('✅ Dados inseridos com sucesso!');
+  } catch (e) {
+    console.error('❌ Erro ao inserir dados:', e);
+  } finally {
+    await pool.end();
+  }
 }
 
-seed().catch((e) => {
-  console.error(e);
-  process.exit(1);
-}); 
+seed(); 

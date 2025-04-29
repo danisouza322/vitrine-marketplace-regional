@@ -1,9 +1,6 @@
 import { ReactNode } from 'react'
-import { BsGrid, BsBox, BsGear, BsPerson, BsDoorOpen } from 'react-icons/bs'
+import { BsGrid, BsBox, BsGear, BsPerson } from 'react-icons/bs'
 import Link from 'next/link'
-import { checkPermission } from '../../lib/auth'
-import { redirect } from 'next/navigation'
-import LogoutButton from '../components/LogoutButton'
 
 const menuItems = [
   { icon: BsGrid, label: 'Dashboard', href: '/painel' },
@@ -12,20 +9,11 @@ const menuItems = [
   { icon: BsGear, label: 'Configurações', href: '/painel/configuracoes' },
 ]
 
-export default async function DashboardLayout({
+export default function DashboardLayout({
   children,
 }: {
   children: ReactNode
 }) {
-  // Verifica se o usuário tem permissão de tenant
-  const session = await checkPermission('tenant');
-  const user = session?.user;
-  
-  // Se não tiver um tenant_id válido, redireciona para login
-  if (!user?.tenant_id) {
-    redirect('/login');
-  }
-
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -38,10 +26,9 @@ export default async function DashboardLayout({
               </div>
             </div>
             <div className="flex items-center">
-              <span className="mr-4 text-sm text-gray-600">
-                {user?.email}
-              </span>
-              <LogoutButton />
+              <button className="p-2 rounded-full hover:bg-gray-100">
+                <BsPerson className="w-6 h-6 text-gray-600" />
+              </button>
             </div>
           </div>
         </div>
