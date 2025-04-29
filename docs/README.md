@@ -19,12 +19,27 @@ Plataforma multi-tenant para vitrines online regionais, onde cada empresa possui
 - `/register` — Cadastro de empresa
 - `/login` — Login de empresa/admin
 
+## Documentação do Sistema
+- [Autenticação](./AUTHENTICATION.md) - Detalhes do sistema de autenticação e autorização
+- [API RESTful](./API.md) - Documentação das APIs disponíveis *(em desenvolvimento)*
+- [Middleware](./MIDDLEWARE.md) - Como funciona o middleware e proteção de rotas *(em desenvolvimento)*
+
 ## Decisões Importantes
 - Multi-tenancy: cada empresa tem seus próprios dados isolados.
 - CRUD de produtos implementado com rotas RESTful.
 - Layout do painel com header fixo, menu responsivo e navegação clara.
-- Integração futura com dados reais do tenant via autenticação.
+- Autenticação robusta com roles e permissões (admin/tenant).
+- Middleware para proteção de rotas baseada em perfil.
 - Estrutura pronta para refino visual avançado (inspirado em Velzon/Figma).
+
+## Atualização Recente (Maio 2023)
+- **Sistema de Autenticação**: Implementação completa com NextAuth.js
+  - JWT para armazenamento de sessão
+  - Middleware para proteção de rotas
+  - Sistema de roles (admin/tenant)
+  - Redirecionamento inteligente baseado em perfil
+- **Correção de Redirecionamento**: Resolvido problema de loop de redirecionamento após login
+- **Botão de Logout**: Implementado componente de logout para fácil navegação
 
 ## Próximos Passos Sugeridos
 - Refino visual do painel de produtos (filtros, tabela avançada, modal de detalhes).
@@ -32,11 +47,14 @@ Plataforma multi-tenant para vitrines online regionais, onde cada empresa possui
 - Implementação do painel de perfil da loja.
 - Integração do tenant_id real via sessão/autenticação.
 - Implementação de analytics e dashboard para admin.
+- 2FA para maior segurança na autenticação.
+- Recuperação de senha via email.
 
 ## Histórico de Implementação
 - Setup inicial do projeto Next.js, Drizzle, banco e autenticação.
 - CRUD de produtos funcional e rotas RESTful alinhadas ao painel.
 - Dashboard moderno com navegação e layout responsivo.
+- Sistema de autenticação robusto com proteção de rotas.
 
 ## Setup do Banco de Dados
 
@@ -77,9 +95,9 @@ Plataforma multi-tenant para vitrines online regionais, onde cada empresa possui
 # Banco de dados
 DATABASE_URL=postgres://usuario:senha@localhost:5432/nome_do_banco
 
-# (Opcional) Autenticação NextAuth
-# NEXTAUTH_SECRET=sua_chave_secreta
-# NEXTAUTH_URL=http://localhost:3000
+# Autenticação NextAuth
+NEXTAUTH_SECRET=sua_chave_secreta
+NEXTAUTH_URL=http://localhost:3000
 
 # (Opcional) Cloudinary/S3 para imagens
 # CLOUDINARY_URL=cloudinary://api_key:api_secret@cloud_name
